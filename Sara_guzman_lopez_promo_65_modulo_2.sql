@@ -1,23 +1,25 @@
 USE sakila;
 
-/*EJERCICIO 1
-Selecciona todos los nombres de las películas sin que aparezcan duplicados*/
+/*Programa para ver las consultas y subconsultas de un Video club, teniendo en cuenta que no solo nos dan 
+datos de alquiler de peliculas sino tambien datos de las peliculas y actores asi como del inventario del videoClub
 
-SELECT DISTINCT title  AS titulo  -- pongo AS para renombrar a la columna
+Muestro todas películas sin que aparezcan duplicados*/
+
+SELECT DISTINCT title  AS titulo  -- renombrar a la columna para que aparezca en castellano
 FROM film; 
 
-/*EJERCICIO 2
+/*
 Muestra los nombres de todas las películas que tengan una clasificación de "PG-13".
 */
 
-SELECT  title AS titulo,-- pongo alias, en este caso, para que la columna aparezca nombrada como yo necesito
+SELECT  title AS titulo,-- 
 		rating AS clasificacion
 FROM film
 WHERE rating ='PG-13' ;
 
-/*EJERCICIO 3
-Encuentra el título y la descripción de todas las películas que 
-contengan la palabra "amazing" en su descripción.
+/*
+el título y la descripción de todas las películas que 
+contienen la palabra "amazing" en su descripción.
 */
 
 SELECT title AS Titulo, 
@@ -26,23 +28,20 @@ FROM Film
 WHERE description LIKE '% amazing %';-- al poner la palabra entre % nos aseguramos que la encuentre
 
 
-/*EJERCICIO 4
-Encuentra el título de todas las películas que tengan una duración mayor a 120 minutos.
+/* título de todas las películas que tengan una duración mayor a 120 minutos.
 */
 SELECT  title AS titulo,
 		length AS duracion
 FROM film
 WHERE length >120;
 
-/*EJERCICIO 5
-Recupera los nombres de todos los actores.
+/* nombres de todos los actores.
 */
 
 SELECT   concat (first_name ,'  ' , last_name ) as nombre -- pongo comillas con espacio en blanco para que se vea nombre, espacio, apellido, quedando asi mas natural 
 FROM actor;
 
-/*EJERCICIO 6
-Encuentra el nombre y apellido de los actores que tengan "Gibson" en su apellido.
+/*ejemplo de como buscamos por nombre y apellido de los actores , en este caso que tengan "Gibson" en su apellido.
 */
 
 SELECT  first_name AS nombre,
@@ -50,11 +49,11 @@ SELECT  first_name AS nombre,
 FROM actor
 WHERE last_name  LIKE '%GIBSON%'; -- con '%like%' encontramos la palabra que queremos buscar
 
-/*EJERCICIO 7
+/*ejemplo de como buscar los actores por Id o código
 Encuentra los nombres de los actores que tengan un actor_id entre 10 y 20
 */
 
-SELECT  actor_id,-- no me lo piden pero lo pongo para comprobar tanto la alumna como el examinador
+SELECT  actor_id,-- no me lo piden pero lo pongo para comprobar
 		 concat (first_name ,'  ' , last_name ) as nombre -- incluyo un concat para que en una sola columna me ponga el nombre y apellidos, separado por un espacio
         FROM actor
 WHERE actor_id BETWEEN 10 AND 20;
@@ -67,7 +66,7 @@ WHERE actor_id BETWEEN 10 AND 20;
 
 
 
-/*EJERCICIO 8
+/*Ejemplo de como encontrar peliculas filtradas
 Encuentra el título de las películas en la tabla film que no sean ni "R" ni "PG-13" en cuanto a su
 clasificación.
 */
@@ -82,8 +81,8 @@ SELECT  title AS titulo
 FROM film
 WHERE rating not in ('r','PG-13') ;
 
-/*EJERCICIO 9
-Encuentra la cantidad total de películas en cada clasificación de la tabla film y muestra la
+/*ejemplo de 
+Encuentra la cantidad total de películas en cada clasificación de la tabla film y muestro la
 clasificación junto con el recuento.
 */
 
@@ -94,7 +93,7 @@ GROUP BY rating
 ORDER BY total_peliculas DESC; -- ordeno de mayor a menor segun categoria
 
 
-/*EJERCICIO 10
+/*
 Encuentra la cantidad total de películas alquiladas por cada cliente y muestra el ID del cliente, 
 su nombre y apellido junto con la cantidad de películas alquiladas.
 */
@@ -115,7 +114,7 @@ GROUP BY c.customer_id,
 ORDER BY total_alquiladas asc; -- ordeno de menos alquiladas a mas
 	
 
-/*EJERCICIO 11
+/*
 Encuentra la cantidad total de películas alquiladas por categoría y
  muestra el nombre de la categoría junto con el recuento de alquileres.*/
 
@@ -137,7 +136,7 @@ GROUP BY c.name
 ORDER BY total_alquiladas DESC;
 
     
-/*EJERCICIO 12
+/*
 Encuentra el promedio de duración de las películas para cada clasificación de la tabla film y
 muestra la clasificación junto con el promedio de duración.
 */
@@ -156,7 +155,7 @@ ORDER BY promedio_duracion DESC;
 
 
 
-/*EJERCICIO 13
+/*
 Encuentra el nombre y apellido de los actores que aparecen en la película con title "Indian Love"
 */
 
@@ -172,7 +171,7 @@ FROM actor AS a
 WHERE f.title = "Indian Love";
 		
 
-/*EJERCICIO 14
+/*
 Muestra el título de todas las películas que contengan la palabra "dog" o "cat" en su descripción
 */
 
@@ -181,7 +180,7 @@ FROM film
 WHERE description LIKE '%dog%' or description LIKE '%cat%';
 
 
-/*EJERCICIO 15
+/*
 .Hay algún actor o actriz que no aparezca en ninguna película en la tabla film_actor.
 */
 SELECT actor_id
@@ -203,8 +202,7 @@ WHERE fa.actor_id is null;
 -- esta query se devuelve vacia por lo tanto hay 0 actores/actrices que no aparezcan en ninguna pelicula de la tabla film_act
 
 
--- EJERCICIO EXTRA 15 BIS
--- Query para ver el numero de  actores  que no aparezca en ninguna pelicula e la tabla film_actor
+
 
 
 SELECT COUNT(fa.actor_id) as numero_actores
@@ -216,7 +214,7 @@ WHERE fa.actor_id IS NULL;
 
 
 
-/*EJERCICIO 16
+/*
 Encuentra el título de todas las películas que fueron lanzadas entre el año 2005 y 2010
 */
 SELECT title,release_year
@@ -234,7 +232,7 @@ FROM film
 where release_year BETWEEN 2005 and 2010;
 
 
-/*EJERCICIO 17
+/*
 Encuentra el título de todas las películas que son de la misma categoría que "Family".
 */
 SELECT f.title -- ,c.name -- para comprobar la categoria 
@@ -245,7 +243,7 @@ FROM category AS c
 		ON fc.film_id=f.film_id
 WHERE c.name like '%Family%'; -- tb se puede hacer c.name ='family'
 
--- EJERCICIO 17 BIS, ENCUENTRA LA CANTIDAD DE PELICULAS QUE SON DE LA MISMA CATEGORIA QUE 'FAMILY'
+-- ENCUENTRA LA CANTIDAD DE PELICULAS QUE SON DE LA MISMA CATEGORIA QUE 'FAMILY'
 
 SELECT COUNT(c.name) as numero_peliculas
 FROM category AS c
@@ -257,7 +255,7 @@ WHERE c.name like '%Family%'; -- hay 69 peliculas en la categoria family
 
 
 
-/*EJERCICIO 18
+/*
 Muestra el nombre y apellido de los actores que aparecen en más de 10 películas.
 */
 SELECT a.first_name AS nombre_actor,
@@ -290,7 +288,7 @@ ORDER BY  count(fa.film_id)>10 desc;
 
 
 
-/*EJERCICIO 19
+/*
 Encuentra el título de todas las películas que son "R" y tienen una duración mayor a 2 horas en la
 tabla film.*/
 
@@ -302,7 +300,7 @@ ORDER BY length DESC;-- de la corta a la mas larga y compruebo condicion
 
 
 
-/*EJERCICIO 20
+/*
 Encuentra las categorías de películas que tienen un promedio de duración superior a 120 minutos y
 muestra el nombre de la categoría junto con el promedio de duración.
 */
@@ -321,7 +319,7 @@ ORDER BY promedio_duracion ASC; -- compruebo que ninguna esta sobre los 120 minu
 
 
 
-/*EJERCICIO 21
+/*
 Encuentra los actores que han actuado en al menos 5 películas y
  muestra el nombre del actor junto con la cantidad de películas en las que han actuado.
  */
@@ -336,7 +334,7 @@ HAVING total_peliculas >=5
 ORDER BY total_peliculas ASC; -- ordeno de menos peliculas  a mas para comprobar que no hay ninguno con menos de 5
 
 
-/*EJERCICIO 22
+/*
 Encuentra el título de todas las películas que fueron alquiladas por más de 5 días. 
 Utiliza una subconsulta para encontrar los rental_ids con una duración superior a 5 días y
 luego selecciona la películas correspondientes.
@@ -376,7 +374,7 @@ WHERE r.rental_id IN (
 
 
 
-/*EJERCICIO 23
+/*
 Encuentra el nombre y apellido de los actores que no han actuado en ninguna película de la categoría"Horror".
  Utiliza una subconsulta para encontrar los actores que han actuado en películas de la
 categoría "Horror" y luego exclúyelos de la lista de actores.
@@ -442,7 +440,7 @@ WHERE a.actor_id not IN ( -- ponemos la condicion
 ORDER BY a.last_name, a.first_name;
 
 
-/*EJERCICIO 24
+/*
 Encuentra el título de las películas que son comedias y tienen una duración mayor a 180 minutos en
 la tabla film.
 */
